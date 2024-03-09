@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./partials/head') -%> <!-- Including head partial -->
+  </head>
+  <body>
+    <%- include('./partials/navmenu') -%>
+
+<!-- INSERT ACTUAL PAGE CONTENT HERE!!!!-->
+<form method="post">
+    <h1> Please sign in </h1>
+    <label for="username"> Username: </label>
+    <input type="text" name="username" id="username"> <br>
+
+    <label for="pword"> Password: </label>
+    <input type="password" name="pword" id="pword"> <br>
+    <input type="submit" value="Sign In">
+
+
+  </form>
+
+    <%- include('./partials/footer') -%>
+</body>
+</html>

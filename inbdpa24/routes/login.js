@@ -1,16 +1,13 @@
 var express = require('express');
 var router = express.Router();
-var crypto =require('crypto').webcrypto;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('page2', { title: 'BDPA Page 2' });
+  res.render('login', { title: 'inBDPA Login' });
 });
 
-// POST registration page
 router.post('/', async(req, res, next) => {
-  var password=req.body.pword;
-  // Encryption attempt...
+    // Encryption attempt...
   const KEY_SIZE_BYTES = 64;
   // The API expects a 16 byte salt (32 hex digits long):
   const SALT_SIZE_BYTES = 16;
@@ -107,61 +104,119 @@ router.post('/', async(req, res, next) => {
     console.log("Key=",keyString);
     return { keyString, saltString };
   };
-  const { keyString, saltString } = await deriveKeyFromPassword(password, req.body);
-  const userdata={
-  username:req.body.username,
-  email: req.body.emailadd,
-  salt:saltString,
-  key:keyString,
-  type:'inner'
-  };
   
 
-  //Request to post to API
-  const httpRequest = require('https');
 
-  const options = {
-    method: 'POST',
-    headers: {
-      'Authorization': 'bearer '+ process.env.BEARER_TOKEN,
-      'content-type': 'application/json'
-    },
-  };
 
-  const data=JSON.stringify(userdata);
-  //console.log(JSON.stringify(userdata));
 
-  const request = httpRequest.request('https://inbdpa.api.hscc.bdpa.org/v1/users', options, response => {
-  console.log('Status', response.statusCode);
-  console.log('Headers', response.headers);
-  let responseData = '';
 
-  response.on('data', dataChunk => {
-    responseData += dataChunk;
-  });
-  response.on('end', () => {
-    console.log('Response: ', responseData)
-  });
+
+
+
+
+
+
+
+
+    username=req.body.username;
+    console.log(username); // test that we have the username filled out.
+
+    // Check to see if username is in API
+    const httpRequest = require('https');
+
+    const options = {
+        method: 'GET',
+        headers: {
+            'Authorization': 'bearer ' + process.env.BEARER_TOKEN,
+            'content-type': 'application/json'
+        }};
+
+    weburl='https://inbdpa.api.hscc.bdpa.org/v1/users/'+username;
+    console.log(weburl);
+
+    const request = httpRequest.request(weburl, options, response => {
+        console.log('Status', response.statusCode);
+        console.log('Headers', response.headers);
+        let responseData = '';
+
+        response.on('data', dataChunk => {
+            responseData += dataChunk;
+        });
+        response.on('end', async() => {
+            console.log('Response: ', responseData);
+
+            //use JSON parse
+            let responseParsed=JSON.parse(responseData);
+            if (responseParsed.success == false) {
+                console.log('User is not found')
+                res.render('login', { title: 'Login UnSuccessful' });
+            }
+            else {
+                console.log('User is found');
+                console.log(responseParsed.user);
+                var user_id=responseParsed.user.user_id;
+                console.log('User id=',user_id);
+                var salt=responseParsed.user.salt;
+                var saltBuffer=convertHexToBuffer(salt);
+                var password=req.body.pword;
+                const { keyString, saltString } = await deriveKeyFromPassword(password, req.body, saltBuffer);
+                console.log('Test Cred');
+ 
+                const httpRequest = require('https');
+
+                const options = {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'bearer '+process.env.BEARER_TOKEN,
+                    'content-type': 'application/json'
+                },
+                };
+
+                const datakey = {
+                    "key": keyString
+                };
+                const data=JSON.stringify(datakey);
+
+                const authurl= 'https://inbdpa.api.hscc.bdpa.org/v1/users/'+user_id+'/auth'
+                const request = httpRequest.request(authurl, options, response => {       
+                console.log('Status', response.statusCode);
+                console.log('Headers', response.headers);
+                let responseData = '';
+
+                response.on('data', dataChunk => {
+                    responseData += dataChunk;
+                });
+                response.on('end', () => {
+                    console.log('Response: ', responseData)
+                    let responseParsed=JSON.parse(responseData);
+                    console.log("Success", responseParsed.success);
+                    if (responseParsed.success==true)
+                    {
+                        res.render('goodlogin', { title: 'Login Successful' });
+                    }
+                    else
+                    {
+                        res.render('login', { title: 'Login UnSuccessful' });
+                    }
+                });
+                });
+
+        request.on('error', error => console.log('ERROR', error));
+
+        request.write(data);
+        request.end();
+        }
+
+    });
+    });
+
+    request.on('error', error => console.log('ERROR', error));
+
+    request.end(); 
+
+
+    //Temporary:
+    //res.render('login', { title: 'inBDPA Login' });
 });
-
-request.on('error', error => console.log('ERROR', error));
-
-request.write(data);
-request.end();
-
-
-  res.render('postregister',
-  {
-    title: 'Post Registration',
-    username: req.body.username,
-    email: req.body.emailadd,
-    salt: saltString,
-    key: keyString
-  }
-  )
-});
-
 
 module.exports = router;
-
-// COMMENT HERE
