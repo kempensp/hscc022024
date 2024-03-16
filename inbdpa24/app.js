@@ -11,6 +11,7 @@ var usersRouter = require('./routes/users');
 var page2Router = require('./routes/page2');
 var statsRouter = require('./routes/stats');
 var loginRouter = require('./routes/login');
+var getusersRouter = require('./routes/getusers'); //ADDED 3/16/24
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use('/page2', page2Router);
 app.use('/index', indexRouter);
 app.use('/stats', statsRouter);
 app.use('/login', loginRouter); //ADDED 3/9/24
+app.use('/getusers',getusersRouter); //Added 3/16
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

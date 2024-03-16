@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./partials/head') -%> <!-- Including head partial -->
+  </head>
+  <body>
+    <%- include('./partials/navmenu') -%>
+
+<!-- INSERT ACTUAL PAGE CONTENT HERE!!!!-->
+<H1> USER LIST HERE</H1>
+<div class="table-responsive">
+<table class="table table-hover">
+<tr>
+    <th> Username </th>
+    <th> Email </th>
+    <th> Type </th>
+    <th> Views </th>
+</tr>
+<%for (var result in users){%>
+    <tr>
+        <td> <%= users[result].username %> </td>
+        <td> <%= users[result].email %> </td>
+        <td> <%= users[result].type %> </td>
+        <td> <%= users[result].views %> </td>
+    </tr>
+
+<%}%> <!-- to close out for loop-->
+
+
+</table>
+</div>
+
+
+
+
+    <%- include('./partials/footer') -%>
+</body>
+</html>
