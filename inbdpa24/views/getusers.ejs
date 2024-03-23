@@ -18,7 +18,16 @@
 </tr>
 <%for (var result in users){%>
     <tr>
-        <td> <%= users[result].username %> </td>
+
+        <!-- Edit 3/23, adding hyperlink to username -->
+        <td> 
+            <a href="getusers/<%= users[result].username %>">
+            <%= users[result].username %> 
+            </a>
+        </td>
+
+
+
         <td> <%= users[result].email %> </td>
         <td> <%= users[result].type %> </td>
         <td> <%= users[result].views %> </td>
