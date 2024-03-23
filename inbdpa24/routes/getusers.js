@@ -3,6 +3,7 @@ var router = express.Router();
 // Normal include statements
 
 const myGetRestCall=require("../middleware/RestAPIGet");
+const myIncrementRestCall = require("../middleware/RestAPIIncrement");
 //including middleware
 
 router.get('/', function(req,res,next) {
@@ -46,8 +47,32 @@ router.get('/:username', function(req,res,next) {
             var username=data.user.username;
             var usertype=data.user.type;
             var views=data.user.views;
+            var aboutsection=data.user.sections.about;
+            var educationsection=data.user.sections.education;
+            var experiencesection=data.user.sections.experience;
+            var skillssection=data.user.sections.skills;
+            var volunteeringsection=data.user.sections.volunteering;
+            var userid=data.user.user_id;
 
-            res.render('userprofile', {title: 'User profile', username:username});
+            const idurl='https://inbdpa.api.hscc.bdpa.org/v1/users/' + userid;
+
+            console.log(idurl);
+
+            myIncrementRestCall.incrementWithBearerToken(idurl, token);
+            res.render('userprofile', 
+            {title: 'User profile', 
+            username: username,
+            type: usertype,
+            views: views+1,
+            about: aboutsection,
+            education: educationsection,
+            experience: experiencesection,
+            skills: skillssection,
+            volunteering: volunteeringsection
+            }); //closes res.render statement
+
+
+
         } // closes if statement
         else{
             res.render('error', {title: 'User call failed', message: data.error});

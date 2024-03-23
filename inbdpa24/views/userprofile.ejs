@@ -6,6 +6,48 @@
 
 <h1> Profile </h1>
 <h2> Username: <%= username %> </h2>
+<h2> User type: <%= type %> </h2>
+<h2> Number of views: <%= views %> </h2>
+<p> About me: <%= about %> </p>
+<p> Education: <br>
+    <%for (var result in education) {%>
+        Title: <%= education[result].title %> <br> 
+        <% const startDate=new Date(education[result].startedAt) %>
+        Started: <%= startDate.toUTCString() %> <br> 
+        <% const endDate=new Date(education[result].endedAt) %> 
+        Ended: <%= endDate.toUTCString() %> <br> 
+        Location: <%= education[result].location %> <br> 
+        Description: <%= education[result].description %> <br>
+    <% } %> 
+</p>
+<p> Experience: <br>
+    <%for (var result in experience) {%>
+        Title: <%= experience[result].title %> <br> 
+        <% const startDate=new Date(experience[result].startedAt) %>
+        Started: <%= startDate.toUTCString() %> <br> 
+        <% const endDate=new Date(experience[result].endedAt) %> 
+        Ended: <%= endDate.toUTCString() %> <br> 
+        Location: <%= experience[result].location %> <br> 
+        Description: <%= experience[result].description %> <br>
+    <% } %> 
+
+</p>
+<p> Skills: <%= skills %> </p>
+<p> Volunteering: <br>
+    <%for (var result in volunteering) {%>
+        Title: <%= volunteering[result].title %> <br> 
+        <% const startDate=new Date(volunteering[result].startedAt) %>
+        Started: <%= startDate.toUTCString() %> <br> 
+        <% const endDate=new Date(volunteering[result].endedAt) %> 
+        Ended: <%= endDate.toUTCString() %> <br> 
+        Location: <%= volunteering[result].location %> <br> 
+        Description: <%= volunteering[result].description %> <br>
+    <% } %>
+
+
+</p>
+
+
 
 <%- include('./partials/footer') -%>
 </body>
