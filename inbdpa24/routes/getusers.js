@@ -18,10 +18,37 @@ router.get('/', function(req,res,next) {
         if (data.success){
             // SUBJECT TO CHANGE
             var userlist=data.users;
-
+            var lastuserid=userlist[userlist.length-1].user_id;
             res.render('getusers', { 
                 title: 'inBDPA Stats' , 
-                users: userlist
+                users: userlist,
+                lastuser: lastuserid
+            });
+        } // closes if statement
+        else{
+            res.render('error', {title: 'Stats call failed', message: data.error});
+        }
+    }) // data then component
+    .catch(error => console.error(error));
+}); // close router.get general route
+
+router.get('/page/:pagenum', function(req,res,next) {
+    const url = 'https://inbdpa.api.hscc.bdpa.org/v1/users';
+    const token = process.env.BEARER_TOKEN;
+    //console.log(url); //Debug
+
+    // Pass url and token into RestAPIGet and pull information from response
+    myGetRestCall.getWithBearerToken(url, token)
+    .then(data => {
+        console.log("REST CALL ", data);
+        if (data.success){
+            // SUBJECT TO CHANGE
+            var userlist=data.users;
+            var lastuserid=userlist[userlist.length-1].user_id;
+            res.render('getusers', { 
+                title: 'inBDPA Stats' , 
+                users: userlist,
+                lastuser: lastuserid
             });
         } // closes if statement
         else{
