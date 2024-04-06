@@ -16,6 +16,7 @@
     "indexeddb": "^0.0.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "~1.9.1",
-    "node-cache": "^5.1.2"
+    "node-cache": "^5.1.2",
+    "window": "^4.2.7"
   }
 }
