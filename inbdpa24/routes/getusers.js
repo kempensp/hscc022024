@@ -1,12 +1,17 @@
+//MODIFY RENDER STATEMENTS TO INCORPORATE AUTH TOKEN INFO!! 4/6/24
+
+
+
 var express = require('express');
 var router = express.Router();
 // Normal include statements
 
 const myGetRestCall=require("../middleware/RestAPIGet");
 const myIncrementRestCall = require("../middleware/RestAPIIncrement");
+const auth = require("../middleware/verifyToken");
 //including middleware
 
-router.get('/', function(req,res,next) {
+router.get('/', auth, function(req,res,next) {
     const url = 'https://inbdpa.api.hscc.bdpa.org/v1/users';
     const token = process.env.BEARER_TOKEN;
     //console.log(url); //Debug
@@ -32,7 +37,7 @@ router.get('/', function(req,res,next) {
     .catch(error => console.error(error));
 }); // close router.get general route
 
-router.get('/page/:pagenum', function(req,res,next) {
+router.get('/page/:pagenum', auth, function(req,res,next) {
     const url = 'https://inbdpa.api.hscc.bdpa.org/v1/users';
     const token = process.env.BEARER_TOKEN;
     //console.log(url); //Debug
@@ -59,7 +64,7 @@ router.get('/page/:pagenum', function(req,res,next) {
 }); // close router.get general route
 
 // GET route for a specific user (based on username)
-router.get('/:username', function(req,res,next) {
+router.get('/:username', auth, function(req,res,next) {
     const url = 'https://inbdpa.api.hscc.bdpa.org/v1/users/' + req.params.username;
     const token = process.env.BEARER_TOKEN;
 

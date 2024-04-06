@@ -1,12 +1,16 @@
+//MODIFY RENDER STATEMENTS TO INCORPORATE AUTH TOKEN INFO!! 4/6/24
+
 var express = require('express');
 var router = express.Router();
+var jwt=require('jsonwebtoken');
+const auth = require("../middleware/verifyToken");
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', auth, function(req, res, next) {
   res.render('login', { title: 'inBDPA Login' });
 });
 
-router.post('/', async(req, res, next) => {
+router.post('/', auth, async(req, res, next) => {
     // Encryption attempt...
   const KEY_SIZE_BYTES = 64;
   // The API expects a 16 byte salt (32 hex digits long):
@@ -155,6 +159,8 @@ router.post('/', async(req, res, next) => {
                 console.log('User is found');
                 console.log(responseParsed.user);
                 var user_id=responseParsed.user.user_id;
+                var role=responseParsed.user.type;
+                var username=responseParsed.user.username;
                 console.log('User id=',user_id);
                 var salt=responseParsed.user.salt;
                 var saltBuffer=convertHexToBuffer(salt);
@@ -192,6 +198,20 @@ router.post('/', async(req, res, next) => {
                     console.log("Success", responseParsed.success);
                     if (responseParsed.success==true)
                     {
+                        console.log("Successful log");
+                        console.log(role);
+                        console.log(user_id);
+                        global.user_id = user_id;
+                        global.role = role;
+
+                        console.log(username);
+                        var token = jwt.sign({
+                          id: user_id, role: role, name:username
+                          }, process.env.BEARER_TOKEN, {
+                          expiresIn: 86400000
+                          });
+                          console.log(token);
+                        global.userToken=token;
                         res.render('goodlogin', { title: 'Login Successful' });
                     }
                     else

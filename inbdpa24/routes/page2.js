@@ -1,14 +1,18 @@
+//MODIFY RENDER STATEMENTS TO INCORPORATE AUTH TOKEN INFO!! 4/6/24
+
+
 var express = require('express');
 var router = express.Router();
 var crypto =require('crypto').webcrypto;
+const auth = require("../middleware/verifyToken");
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', auth, function(req, res, next) {
   res.render('page2', { title: 'BDPA Page 2' });
 });
 
 // POST registration page
-router.post('/', async(req, res, next) => {
+router.post('/', auth, async(req, res, next) => {
   var password=req.body.pword;
   // Encryption attempt...
   const KEY_SIZE_BYTES = 64;

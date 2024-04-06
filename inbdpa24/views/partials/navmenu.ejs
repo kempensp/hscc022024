@@ -31,12 +31,7 @@
                     <a href="/page2" aria-current="page" class="nav-link-active custom-link"> Register </a>
                 </li>
 
-                <!-- Third Nav Item: Login Page-->
-                <li class="nav-item">
-                    <a href="/login" aria-current="page" class="nav-link-active custom-link"> Login </a>
-                </li>
-
-                <!-- Fourth Nav Item: Stats Page-->
+                <!-- Third Nav Item: Stats Page-->
                 <li class="nav-item">
                     <a href="/stats" aria-current="page" class="nav-link-active custom-link"> Stats </a>
                 </li>
@@ -52,7 +47,21 @@
 
                     </ul>
 
+                </li> 
+
+                <!-- End Nav Item: Login Page MAKE CONDITIONAL ON ROLE-->
+                <li class="nav-item">
+                    <!-- IF the login token is guest or non existant, do login-->
+                    <% if (role=='guest' || !(role)) { %> 
+                    <a href="/login" aria-current="page" class="nav-link-active custom-link"> Login </a>
+                    <% } %>
+                    <!-- If the login token exists as another role, do a welcome message and logout-->
+                    <% if ((role) && role!='guest') { %> <!-- De Morgan's law to the first if...-->
+                    <div style="color:black"> Welcome, <%= name %> </div>
+                    <a href="/logout" aria-current="page" class="nav-link-active custom-link"> Logout </a>
+                    <% } %>
                 </li>
+
 
 
             </ul>
