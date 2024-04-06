@@ -27,11 +27,19 @@ router.get('/', auth, function(req,res,next) {
             res.render('getusers', { 
                 title: 'inBDPA Stats' , 
                 users: userlist,
-                lastuser: lastuserid
+                lastuser: lastuserid,
+                id: res.locals.user_id,
+                role: res.locals.role,
+                name: res.locals.name
             });
         } // closes if statement
         else{
-            res.render('error', {title: 'Stats call failed', message: data.error});
+            res.render('error', {title: 'Stats call failed', 
+            message: data.error,
+            id: res.locals.user_id,
+            role: res.locals.role,
+            name: res.locals.name
+        });
         }
     }) // data then component
     .catch(error => console.error(error));
@@ -53,11 +61,19 @@ router.get('/page/:pagenum', auth, function(req,res,next) {
             res.render('getusers', { 
                 title: 'inBDPA Stats' , 
                 users: userlist,
-                lastuser: lastuserid
+                lastuser: lastuserid,
+                id: res.locals.user_id,
+                role: res.locals.role,
+                name: res.locals.name
             });
         } // closes if statement
         else{
-            res.render('error', {title: 'Stats call failed', message: data.error});
+            res.render('error', {title: 'Stats call failed', 
+            message: data.error,
+            id: res.locals.user_id,
+            role: res.locals.role,
+            name: res.locals.name
+        });
         }
     }) // data then component
     .catch(error => console.error(error));
@@ -100,21 +116,32 @@ router.get('/:username', auth, function(req,res,next) {
             education: educationsection,
             experience: experiencesection,
             skills: skillssection,
-            volunteering: volunteeringsection
+            volunteering: volunteeringsection,
+            id: res.locals.user_id,
+            role: res.locals.role,
+            name: res.locals.name
             }); //closes res.render statement
 
 
 
         } // closes if statement
         else{
-            res.render('error', {title: 'User call failed', message: data.error});
+            res.render('error', {title: 'User call failed',
+            message: data.error,
+            id: res.locals.user_id,
+            role: res.locals.role,
+            name: res.locals.name
+        });
         }
 
 
     }) // data then component
     .catch(error => console.error(error));
 
-    //res.render('index', {title: 'debugging user profile page'});
+    // res.render('index', {title: 'debugging user profile page',
+    // id: res.locals.user_id,
+    // role: res.locals.role,
+    // name: res.locals.name});
 
 
 }); // close router.get username route

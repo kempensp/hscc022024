@@ -1,4 +1,4 @@
-//MODIFY RENDER STATEMENTS TO INCORPORATE AUTH TOKEN INFO!! 4/6/24
+//MODIFY Get route to require authing to access page (if the user is a guest, redirect to login)
 
 
 var express = require('express');
@@ -10,6 +10,9 @@ const auth = require("../middleware/verifyToken");
 //including middleware
 
 router.get('/', auth, function(req,res,next) {
+    //If the user is authed (to at least inner or higher??), then we pull the info endpoint
+    if ((res.locals.role) && (res.locals.role != 'guest'))
+    {
     const url = 'https://inbdpa.api.hscc.bdpa.org/v1/info';
     const token = process.env.BEARER_TOKEN;
     //console.log(url); //Debug
@@ -28,14 +31,25 @@ router.get('/', auth, function(req,res,next) {
                 opportunities: opportunities,
                 sessions:sessions,
                 users:users,
-                views:views
+                views:views,
+                id: res.locals.user_id,
+                role: res.locals.role,
+                name: res.locals.name
             });
         } // closes if statement
         else{
-            res.render('error', {title: 'Stats call failed', message: data.error});
+            res.render('error', {title: 'Stats call failed',
+            message: data.error,
+            id: res.locals.user_id,
+            role: res.locals.role,
+            name: res.locals.name});
         }
     }) // data then component
     .catch(error => console.error(error));
+} // close if the token is not a guest portion
+else {  //If the user is a guest, send them to the login route
+    res.redirect('/login');
+}
 }); // close router.get route
 
 module.exports=router;

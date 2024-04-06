@@ -7,7 +7,11 @@ const auth = require("../middleware/verifyToken");
 
 /* GET home page. */
 router.get('/', auth, function(req, res, next) {
-  res.render('login', { title: 'inBDPA Login' });
+  res.render('login', { title: 'inBDPA Login',
+    id: res.locals.user_id,
+    role: res.locals.role,
+    name: res.locals.name
+});
 });
 
 router.post('/', auth, async(req, res, next) => {
@@ -153,7 +157,10 @@ router.post('/', auth, async(req, res, next) => {
             let responseParsed=JSON.parse(responseData);
             if (responseParsed.success == false) {
                 console.log('User is not found')
-                res.render('login', { title: 'Login UnSuccessful' });
+                res.render('login', { title: 'Login UnSuccessful',
+                id: res.locals.user_id,
+                role: res.locals.role,
+                name: res.locals.name });
             }
             else {
                 console.log('User is found');
@@ -212,11 +219,17 @@ router.post('/', auth, async(req, res, next) => {
                           });
                           console.log(token);
                         global.userToken=token;
-                        res.render('goodlogin', { title: 'Login Successful' });
+                        res.render('goodlogin', { title: 'Login Successful',
+                        id: user_id,
+                        role: role,
+                        name: username });
                     }
                     else
                     {
-                        res.render('login', { title: 'Login UnSuccessful' });
+                        res.render('login', { title: 'Login UnSuccessful',
+                        id: res.locals.user_id,
+                        role: res.locals.role,
+                        name: res.locals.name });
                     }
                 });
                 });
@@ -235,8 +248,7 @@ router.post('/', auth, async(req, res, next) => {
     request.end(); 
 
 
-    //Temporary:
-    //res.render('login', { title: 'inBDPA Login' });
+
 });
 
 module.exports = router;

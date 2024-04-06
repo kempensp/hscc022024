@@ -7,8 +7,10 @@
 <h1> Profile </h1>
 <h2> Username: <%= username %> </h2>
 <h2> User type: <%= type %> </h2>
-<h2> Number of views: <%= views %> </h2>
 <p> About me: <%= about %> </p>
+<!-- REST OF SECTION IS FOR AUTHED USERS ONLY-->
+<% if ((role) && role!='guest') { %>
+<h2> Number of views: <%= views %> </h2>
 <p> Education: <br>
     <%for (var result in education) {%>
         Title: <%= education[result].title %> <br> 
@@ -47,7 +49,12 @@
 
 </p>
 
+<% } %> <!-- Close the restricted auth section if statement-->
 
-
+<!-- If the person is logged in and viewing their own profile, we want them to be able to edit-->
+<% if ((role) && role!='guest' && name==username) { %>
+    <H2> This is you, you can edit </H2> 
+    <!-- INSERT FORMS TO EDIT PROFILE HERE-->
+<% } %> 
 <%- include('./partials/footer') -%>
 </body>

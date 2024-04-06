@@ -8,7 +8,10 @@ const auth = require("../middleware/verifyToken");
 
 /* GET home page. */
 router.get('/', auth, function(req, res, next) {
-  res.render('page2', { title: 'BDPA Page 2' });
+  res.render('page2', { title: 'BDPA Register User',
+  id: res.locals.user_id,
+  role: res.locals.role,
+  name: res.locals.name });
 });
 
 // POST registration page
@@ -160,7 +163,10 @@ request.end();
     username: req.body.username,
     email: req.body.emailadd,
     salt: saltString,
-    key: keyString
+    key: keyString,
+    id: res.locals.user_id,
+    role: res.locals.role,
+    name: res.locals.name
   }
   )
 });

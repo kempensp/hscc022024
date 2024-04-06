@@ -42,7 +42,10 @@ router.get('/', auth, function(req, res, next) {
             opportunities: opportunities,
             sessions:sessions,
             users:users,
-            views:views
+            views:views,
+            id: res.locals.user_id,
+            role: res.locals.role,
+            name: res.locals.name
         });
     });
     });

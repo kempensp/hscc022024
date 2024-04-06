@@ -51,7 +51,11 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error', {title: '404 error'});
+  res.render('error', {title: '404 error',
+  id: res.locals.user_id,
+  role: res.locals.role,
+  name: res.locals.name
+});
 });
 
 module.exports = app;
