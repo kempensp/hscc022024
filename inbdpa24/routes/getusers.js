@@ -27,7 +27,7 @@ router.get('/', auth, function(req,res,next) {
 
             //TRYING TO STORE INFO INTO MONGO
             const { MongoClient, ServerApiVersion } = require('mongodb');
-            const uri = "mongodb+srv://bdpamke2024:OU48lSBJtyYr9f3I@inbdpa23.dmklbqg.mongodb.net/?retryWrites=true&w=majority&appName=inBDPA23";
+            const uri = "mongodb+srv://" + process.env.MONGO_LOGIN + "@inbdpa23.dmklbqg.mongodb.net/?retryWrites=true&w=majority&appName=inBDPA23";
             // Create a MongoClient with a MongoClientOptions object to set the Stable API version
             const client = new MongoClient(uri, {
                 serverApi: {
@@ -183,10 +183,6 @@ router.get('/:username', auth, function(req,res,next) {
     }) // data then component
     .catch(error => console.error(error));
 
-    // res.render('index', {title: 'debugging user profile page',
-    // id: res.locals.user_id,
-    // role: res.locals.role,
-    // name: res.locals.name});
 
 
 }); // close router.get username route
