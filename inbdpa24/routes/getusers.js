@@ -49,15 +49,20 @@ router.get('/', auth, function(req,res,next) {
                 
                 for (var i=0; i<userlist.length; i++)
                 {
+                    //I can probably replace this code with an upsert code as explained at https://www.w3schools.com/mongodb/mongodb_mongosh_update.php
+                    const doesitexist=await collection.findOne({
+                        userindex:i+1,
+                    })
+                    if (doesitexist==null){
                     const add= await collection.insertOne({
                         userindex: i+1,
                         mongoIndex: userlist[i].user_id
                       })
-
+                    }
                 }
 
                 // Find the first document in the collection
-                const first = await collection.find();
+                const first = await collection.findOne();
                 console.log(first);
             } finally {
                 // Ensures that the client will close when you finish/error
