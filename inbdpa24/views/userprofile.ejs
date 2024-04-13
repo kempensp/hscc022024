@@ -8,6 +8,18 @@
 <h2> Username: <%= username %> </h2>
 <h2> User type: <%= type %> </h2>
 <p> About me: <%= about %> </p>
+<!-- About me edit for authed same user only -->
+<% if ((role) && role!='guest' && name==username) { %>
+<form method="post" action="/editprofile/<%= name %>">
+<label for="aboutme"> Enter updated about me:  </label> <br>
+<textarea name="aboutme" id="aboutme" rows="10" cols="40"></textarea> <br>
+<input type="submit" value="Update About Me">
+
+
+
+</form>
+<% } %> <!-- end of authed section with about me edit form-->
+
 <!-- REST OF SECTION IS FOR AUTHED USERS ONLY-->
 <% if ((role) && role!='guest') { %>
 <h2> Number of views: <%= views %> </h2>

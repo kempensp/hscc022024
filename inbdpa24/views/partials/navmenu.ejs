@@ -41,9 +41,9 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"> Users </a>
                     <ul class="dropdown-menu">
                         <li> <a class="dropdown-item" href="/getusers"> Get User List </a></li>
-                        <li> <a class="dropdown-item" href="#"> Item 2 </a></li>
-                        <li> <a class="dropdown-item" href="#"> Item 3 </a></li>
-
+                        <% if ((role) && role!='guest') { %> <!-- if the person is logged in-->
+                        <li> <a class="dropdown-item" href="/getusers/<%= name %>"> View Profile </a></li>   
+                        <% } %>
 
                     </ul>
 
