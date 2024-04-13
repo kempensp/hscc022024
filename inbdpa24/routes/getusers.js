@@ -95,7 +95,7 @@ router.get('/', auth, function(req,res,next) {
     .catch(error => console.error(error));
 }); // close router.get general route
 
-router.get('?start=:startid', auth, function(req,res,next) {
+router.get('/start=:startid', auth, function(req,res,next) {
     var url = 'https://inbdpa.api.hscc.bdpa.org/v1/users';
     //console.log(url); //Debug
 
