@@ -77,7 +77,7 @@ router.get('/', auth, function(req,res,next) {
             res.render('getusers', { 
                 title: 'inBDPA Stats' , 
                 users: userlist,
-                lastuser: lastuserid,
+                userstart: 0,
                 id: res.locals.user_id,
                 role: res.locals.role,
                 name: res.locals.name
@@ -175,7 +175,7 @@ router.get('/start=:startid', auth, function(req,res,next) {
             res.render('getusers', { 
                 title: 'inBDPA Stats' , 
                 users: userlist,
-                lastuser: lastuserid,
+                userstart: req.params.startid,
                 id: res.locals.user_id,
                 role: res.locals.role,
                 name: res.locals.name
