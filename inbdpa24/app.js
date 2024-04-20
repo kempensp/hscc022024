@@ -16,6 +16,7 @@ var loginRouter = require('./routes/login');
 var getusersRouter = require('./routes/getusers'); //ADDED 3/16/24
 var logoutRouter = require('./routes/logout'); //ADDED 4/6/24
 var editprofileRouter = require('./routes/editprofile'); //ADDED 4/13/24
+var getopportunitiesRouter = require('./routes/getopportunities'); //ADDED 4/20/24 OTHER
 
 var app = express();
 
@@ -39,6 +40,8 @@ app.use('/login', loginRouter); //ADDED 3/9/24
 app.use('/getusers',getusersRouter); //Added 3/16
 app.use('/logout',logoutRouter); //Added 4/6
 app.use('/editprofile',editprofileRouter); //Added 4/13
+app.use('/getopportunities',getopportunitiesRouter); //Added 4/20 OTHER
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

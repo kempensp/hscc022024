@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./partials/head') -%> <!-- Including head partial -->
+  </head>
+  <body>
+    <%- include('./partials/navmenu') -%>
+
+<!-- CREATED 4/20/24 !!!!-->
+<H1> USER LIST HERE</H1>
+<div class="table-responsive">
+<table class="table table-hover">
+<tr>
+    <th> Title </th>
+    <th> Opportunity ID </th>
+    <th> Views </th>
+</tr>
+<%for (var result in opportunities){%>
+    <tr>
+        <td> <%= opportunities[result].title %> </td>
+
+        <td> 
+            <a href="/getopportunities/<%= opportunities[result].opportunity_id %>">
+            <%= opportunities[result].opportunity_id %> 
+            </a>
+        </td>
+        <td> <%= opportunities[result].views %> </td>
+
+
+
+
+
+    </tr>
+
+<%}%> <!-- to close out for loop-->
+
+
+</table>
+</div>
+Last user id: <%= opportunitystart %>
+<a href="/getopportunities/start=<%= Number(opportunitystart) + 100 %>"> Next page </a>
+
+
+
+
+
+    <%- include('./partials/footer') -%>
+</body>
+</html>

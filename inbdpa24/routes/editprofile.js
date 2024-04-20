@@ -1,50 +1,25 @@
 var express = require('express');
 var router = express.Router();
 const auth = require("../middleware/verifyToken");
+const myPatchRestCall=require("../middleware/RestAPIPatch");
 
-router.post('/:username', auth, function(req,res,next){
+router.post('/:username/editabout', auth, function(req,res,next){
+    if ((res.locals.role) && (res.locals.role != 'guest') && (res.locals.name==req.params.username))
+    {
+        const url = 'https://inbdpa.api.hscc.bdpa.org/v1/users/'+res.locals.user_id;
+        const token = process.env.BEARER_TOKEN;
+        const body = {
+            "sections":{"about": req.body.aboutme}
+            };
+        //console.log(url); //Debug
 
-    //TO START TESTING, CREATE SOME DUMMY CODE AND A REDIRECT
-    console.log("Posting to profile:", req.params.username);
-    console.log("Profile id:", res.locals.user_id);
-//PATCH REQUEST WILL BE MODIFIED TO MIDDLEWARE LATER:
-const httpRequest = require('https');
-
-const options = {
-  method: 'PATCH',
-  headers: {
-        'Authorization': 'bearer '+process.env.BEARER_TOKEN,
-        'content-type': 'application/json'
-    },
-    };
-
-    const data = JSON.stringify({
-    "sections":{"about": req.body.aboutme}
-    })
-
-    const request = httpRequest.request('https://inbdpa.api.hscc.bdpa.org/v1/users/'+res.locals.user_id, options, response => {
-    console.log('Status', response.statusCode);
-    console.log('Headers', response.headers);
-    let responseData = '';
-
-    response.on('data', dataChunk => {
-        responseData += dataChunk;
-    });
-    response.on('end', () => {
-        console.log('Response: ', responseData)
-    });
-    });
-
-    request.on('error', error => console.log('ERROR', error));
-
-    request.write(data);
-    request.end();
-
-
-
-
-    res.redirect('/getusers/'+req.params.username);
-
+        // Pass url, token, and body into RestAPIPatch and redirect to the user profile
+        myPatchRestCall.patchWithBearerToken(url, token, body)
+        res.redirect('/getusers/'+req.params.username);
+    } // close if the token is not a guest portion
+    else {  //If the user is a guest, send them to the login route
+        res.redirect('/login');
+    }
 }); //End post route
 
 module.exports = router;

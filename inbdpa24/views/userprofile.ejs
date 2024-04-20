@@ -10,7 +10,7 @@
 <p> About me: <%= about %> </p>
 <!-- About me edit for authed same user only -->
 <% if ((role) && role!='guest' && name==username) { %>
-<form method="post" action="/editprofile/<%= name %>">
+<form method="post" action="/editprofile/<%= name %>/editabout">
 <label for="aboutme"> Enter updated about me:  </label> <br>
 <textarea name="aboutme" id="aboutme" rows="10" cols="40"></textarea> <br>
 <input type="submit" value="Update About Me">
@@ -46,7 +46,11 @@
     <% } %> 
 
 </p>
-<p> Skills: <%= skills %> </p>
+<p> Skills: <br> <% for (var result in skills) { %> 
+    <%= skills[result] %>
+    <br>
+    <% } %> </p>
+
 <p> Volunteering: <br>
     <%for (var result in volunteering) {%>
         Title: <%= volunteering[result].title %> <br> 

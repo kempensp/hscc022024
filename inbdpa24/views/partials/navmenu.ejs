@@ -48,7 +48,12 @@
                     </ul>
 
                 </li> 
-
+                <!--opportunities if user is logged in-->
+                <% if ((role) && role!='guest') { %> <!-- if the person is logged in-->
+                    <li class="nav-item">
+                        <a href="/getopportunities" aria-current="page" class="nav-link-active custom-link"> Opportunities </a>
+                    </li>
+                <% } %>
                 <!-- End Nav Item: Login Page MAKE CONDITIONAL ON ROLE-->
                 <li class="nav-item">
                     <!-- IF the login token is guest or non existant, do login-->
