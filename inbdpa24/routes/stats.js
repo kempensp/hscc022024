@@ -26,6 +26,10 @@ router.get('/', auth, function(req,res,next) {
             var sessions=data.info.sessions;
             var users=data.info.users;
             var views=data.info.views;
+
+            store.set("users", {count:users});
+            store.set("opportunities", {count:opportunities});
+
             res.render('stats', { 
                 title: 'inBDPA Stats' , 
                 opportunities: opportunities,

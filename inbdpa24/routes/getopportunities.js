@@ -75,7 +75,8 @@ router.get('/', auth, function(req,res,next) {
             run().catch(console.dir);
 
 
-
+            //Get the count of the number of opportunities for pagination
+            var opportunityCount=store.get('opportunities').count;
 
             res.render('getopportunities', { 
                 title: 'inBDPA Stats' , 
@@ -83,7 +84,8 @@ router.get('/', auth, function(req,res,next) {
                 opportunitystart: 0,
                 id: res.locals.user_id,
                 role: res.locals.role,
-                name: res.locals.name
+                name: res.locals.name,
+                opportunityCount: opportunityCount
             });
         } // closes if statement
         else{
@@ -184,13 +186,17 @@ router.get('/start=:startid', auth, function(req,res,next) {
             }
             run().catch(console.dir);
 
+            //Get the count of the number of opportunities for pagination
+            var opportunityCount=store.get('opportunities').count;
+
             res.render('getopportunities', { 
                 title: 'inBDPA Stats' , 
                 opportunities:opportunitylist,
                 opportunitystart: 0,
                 id: res.locals.user_id,
                 role: res.locals.role,
-                name: res.locals.name
+                name: res.locals.name,
+                opportunityCount: opportunityCount
             });
         } // closes if statement
         else{

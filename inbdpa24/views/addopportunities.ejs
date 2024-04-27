@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./partials/head') -%> <!-- Including head partial -->
+  </head>
+  <body>
+    <%- include('./partials/navmenu') -%>
+
+<!-- INSERT ACTUAL PAGE CONTENT HERE!!!!-->
+<h1> Add an Opportunity </h1>
+
+
+<!-- Form goes here-->
+<form method="post">
+<label for="title"> Title: </label>
+<input type="text" name="title" id="title" required> <br>
+<label for="contents"> Please enter contents of opportunity using markdown </label> <br>
+<textarea name="contents" id="contents" rows="10" cols="50" required></textarea><br>
+<input type="submit" value="Add opportunity">
+</form>
+
+</body>
+</html>

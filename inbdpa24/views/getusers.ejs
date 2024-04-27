@@ -41,7 +41,7 @@
 User Count: <%= userCount %>
 
 
-<!-- NOT WORKING WAY OF STORING PAGINATION -->
+<!-- WORKING WAY OF STORING PAGINATION -->
 <% for (var startvalue=0; startvalue<userCount; startvalue+=100 ) { %>
     <a href="/getusers/start=<%= startvalue %>"> <%= startvalue/100+1 %> </a>
 <% } %>

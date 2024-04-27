@@ -37,8 +37,10 @@
 
 </table>
 </div>
-Last user id: <%= opportunitystart %>
-<a href="/getopportunities/start=<%= Number(opportunitystart) + 100 %>"> Next page </a>
+<!-- WORKING WAY OF STORING PAGINATION -->
+<% for (var startvalue=0; startvalue<opportunityCount; startvalue+=100 ) { %>
+    <a href="/getopportunities/start=<%= startvalue %>"> <%= startvalue/100+1 %> </a>
+<% } %>
 
 
 

@@ -179,7 +179,7 @@ router.get('/start=:startid', auth, function(req,res,next) {
             }
             }
             run().catch(console.dir);
-            var userCount=store.get('users').count
+            var userCount=store.get('users').count;
             
             res.render('getusers', { 
                 title: 'inBDPA Stats' , 
