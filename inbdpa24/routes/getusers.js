@@ -12,6 +12,7 @@ const auth = require("../middleware/verifyToken");
 //including middleware
 var store = require('store');
 
+// Generic route to get a list of users from the beginning (first 100)
 router.get('/', auth, function(req,res,next) {
     const url = 'https://inbdpa.api.hscc.bdpa.org/v1/users';
     const token = process.env.BEARER_TOKEN;
@@ -49,10 +50,6 @@ router.get('/', auth, function(req,res,next) {
                 const db = client.db('inBDPA24');
                 const collection = db.collection('UserIndex');
 
-                const usercol= db.collection("Stats")
-                const statslookup=await usercol.findOne();
-                userCount=statslookup.userCount;
-
                 //Try to store list in mongodb???
                 
                 for (var i=0; i<userlist.length; i++)
@@ -71,10 +68,6 @@ router.get('/', auth, function(req,res,next) {
 
                 // Find the first document in the collection
                 const first = await collection.findOne();
-
-                console.log(statslookup);
-                console.log('Usercount:',statslookup.userCount);
-                console.log('Usercount:',userCount);
                 
             } finally {
                 // Ensures that the client will close when you finish/error
@@ -82,14 +75,9 @@ router.get('/', auth, function(req,res,next) {
             }
             }
             run().catch(console.dir);
-            console.log('Usercount:',userCount);
-            var userValue= store.get('users').count
-            var userarray=[];
-            var pagecounter=0;
-            while (pagecounter<userValue){
-                userarray.push(pagecounter/100+1);
-                pagecounter+=100;
-            }
+            // Get the count of the number of users from store
+            var userCount= store.get('users').count;
+
             res.render('getusers', { 
                 title: 'inBDPA Stats' , 
                 users: userlist,
@@ -97,8 +85,7 @@ router.get('/', auth, function(req,res,next) {
                 id: res.locals.user_id,
                 role: res.locals.role,
                 name: res.locals.name,
-                userCount: userValue,
-                userArray: userarray
+                userCount: userCount,
             });
         } // closes if statement
         else{
@@ -183,10 +170,7 @@ router.get('/start=:startid', auth, function(req,res,next) {
 
                         );
                     }
-                    const usercol= db.collection("Stats")
-                    const statslookup=await usercol.findOne();
-                    userCount=statslookup.userCount;
-                    console.log(statslookup);
+
                 }
             
             finally {
@@ -195,13 +179,8 @@ router.get('/start=:startid', auth, function(req,res,next) {
             }
             }
             run().catch(console.dir);
-            var userValue=store.get('users').count
-            var userarray=[];
-            var pagecounter=0;
-            while (pagecounter<userValue){
-                userarray.push(pagecounter/100+1);
-                pagecounter+=100;
-            }
+            var userCount=store.get('users').count
+            
             res.render('getusers', { 
                 title: 'inBDPA Stats' , 
                 users: userlist,
@@ -209,8 +188,8 @@ router.get('/start=:startid', auth, function(req,res,next) {
                 id: res.locals.user_id,
                 role: res.locals.role,
                 name: res.locals.name,
-                userCount: userValue,
-                userArray: userarray
+                userCount: userCount,
+
             });
         } // closes if statement
         else{

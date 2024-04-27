@@ -41,14 +41,10 @@
 User Count: <%= userCount %>
 
 
-<!-- Pagination bar -->
-<%for (var value in userArray){%>
-    <a href="/getusers/start=<%= (userArray[value]-1)*100 %>"> <%= (userArray[value]) %> </a>
+<!-- NOT WORKING WAY OF STORING PAGINATION -->
+<% for (var startvalue=0; startvalue<userCount; startvalue+=100 ) { %>
+    <a href="/getusers/start=<%= startvalue %>"> <%= startvalue/100+1 %> </a>
 <% } %>
-
-
-
-
 
     <%- include('./partials/footer') -%>
 </body>

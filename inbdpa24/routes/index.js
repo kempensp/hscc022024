@@ -16,54 +16,10 @@ router.get('/', auth, function(req, res, next) {
         if (data.success){
             var opportunities=data.info.opportunities;
             var users=data.info.users;
-            store.set("users", {count:data.info.users});
-            //USE STORE.SET INSTEAD
-            localStorage.setItem("opportunities", data.info.opportunities);
-            //Set up MongoDB connection
-            const { MongoClient, ServerApiVersion } = require('mongodb');
-            const uri = "mongodb+srv://" + process.env.MONGO_LOGIN + "@inbdpa23.dmklbqg.mongodb.net/?retryWrites=true&w=majority&appName=inBDPA23";
-            // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-            const client = new MongoClient(uri, {
-                serverApi: {
-                version: ServerApiVersion.v1,
-                strict: true,
-                deprecationErrors: true,
-                }
-            });
-            async function run() {
-            try {
-                // Connect the client to the server	(optional starting in v4.7)
-                await client.connect();
-                // Send a ping to confirm a successful connection
-                await client.db("admin").command({ ping: 1 });
-                console.log("Pinged your deployment. You successfully connected to MongoDB!");
-                console.log("Opportunities=",opportunities);
-                //Defining db and collection objects to simplify code
-                const db = client.db('inBDPA24');
-                const collection = db.collection('Stats');
-                console.log("test stats collection");
-                //Try to store users and opportunities in Stats Collection
-                const updateStats=collection.updateOne(
-                  {title:"inBDPAstats"},
-                  {$set:
-                    {
-                      title:"inBDPAstats",
-                      opportunityCount:opportunities,
-                      userCount:users
-                    }
-                  },
-                  {upsert:true}
-                )
-                
 
-                // Find the first document in the collection
-
-            } finally {
-                // Ensures that the client will close when you finish/error
-                //await client.close();
-            }
-            }
-            run().catch(console.dir);
+            //Use store.set to store the number of users and the number of opportunities
+            store.set("users", {count:users});
+            store.set("opportunities", {count:opportunities});
  
         } // closes if statement
         else{

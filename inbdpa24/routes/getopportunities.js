@@ -5,6 +5,7 @@ var router = express.Router();
 const myGetRestCall=require("../middleware/RestAPIGet");
 const myIncrementRestCall = require("../middleware/RestAPIIncrement");
 const auth = require("../middleware/verifyToken");
+var store = require('store');
 var MarkdownIt = require('markdown-it'),
 md = new MarkdownIt();
 //including middleware
