@@ -10,6 +10,7 @@ const myGetRestCall=require("../middleware/RestAPIGet");
 const myIncrementRestCall = require("../middleware/RestAPIIncrement");
 const auth = require("../middleware/verifyToken");
 //including middleware
+var store = require('store');
 
 router.get('/', auth, function(req,res,next) {
     const url = 'https://inbdpa.api.hscc.bdpa.org/v1/users';
@@ -82,17 +83,22 @@ router.get('/', auth, function(req,res,next) {
             }
             run().catch(console.dir);
             console.log('Usercount:',userCount);
-
-
-
+            var userValue= store.get('users').count
+            var userarray=[];
+            var pagecounter=0;
+            while (pagecounter<userValue){
+                userarray.push(pagecounter/100+1);
+                pagecounter+=100;
+            }
             res.render('getusers', { 
                 title: 'inBDPA Stats' , 
                 users: userlist,
-                userstart: 0,
+                userstart: req.params.startid,
                 id: res.locals.user_id,
                 role: res.locals.role,
                 name: res.locals.name,
-                userCount: userCount
+                userCount: userValue,
+                userArray: userarray
             });
         } // closes if statement
         else{
@@ -189,7 +195,13 @@ router.get('/start=:startid', auth, function(req,res,next) {
             }
             }
             run().catch(console.dir);
-        
+            var userValue=store.get('users').count
+            var userarray=[];
+            var pagecounter=0;
+            while (pagecounter<userValue){
+                userarray.push(pagecounter/100+1);
+                pagecounter+=100;
+            }
             res.render('getusers', { 
                 title: 'inBDPA Stats' , 
                 users: userlist,
@@ -197,7 +209,8 @@ router.get('/start=:startid', auth, function(req,res,next) {
                 id: res.locals.user_id,
                 role: res.locals.role,
                 name: res.locals.name,
-                userCount: userCount
+                userCount: userValue,
+                userArray: userarray
             });
         } // closes if statement
         else{

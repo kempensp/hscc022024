@@ -39,7 +39,12 @@
 </table>
 </div>
 User Count: <%= userCount %>
-<a href="/getusers/start=<%= Number(userstart) + 100 %>"> Next page </a>
+
+
+<!-- Pagination bar -->
+<%for (var value in userArray){%>
+    <a href="/getusers/start=<%= (userArray[value]-1)*100 %>"> <%= (userArray[value]) %> </a>
+<% } %>
 
 
 

@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const auth = require("../middleware/verifyToken");
 const myGetRestCall=require("../middleware/RestAPIGet");
+var store = require('store');
+
 
 /* GET home page. */
 router.get('/', auth, function(req, res, next) {
@@ -14,6 +16,9 @@ router.get('/', auth, function(req, res, next) {
         if (data.success){
             var opportunities=data.info.opportunities;
             var users=data.info.users;
+            store.set("users", {count:data.info.users});
+            //USE STORE.SET INSTEAD
+            localStorage.setItem("opportunities", data.info.opportunities);
             //Set up MongoDB connection
             const { MongoClient, ServerApiVersion } = require('mongodb');
             const uri = "mongodb+srv://" + process.env.MONGO_LOGIN + "@inbdpa23.dmklbqg.mongodb.net/?retryWrites=true&w=majority&appName=inBDPA23";
