@@ -43,7 +43,8 @@ User Count: <%= userCount %>
 
 <!-- WORKING WAY OF STORING PAGINATION -->
 <% for (var startvalue=0; startvalue<userCount; startvalue+=100 ) { %>
-    <a href="/getusers/start=<%= startvalue %>"> <%= startvalue/100+1 %> </a>
+    <a href="/getusers/start=<%= startvalue %>"><%= startvalue/100+1 %></a>
+    &nbsp;
 <% } %>
 
     <%- include('./partials/footer') -%>

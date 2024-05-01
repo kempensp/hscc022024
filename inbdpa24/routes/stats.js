@@ -8,6 +8,7 @@ var router = express.Router();
 const myGetRestCall=require("../middleware/RestAPIGet");
 const auth = require("../middleware/verifyToken");
 //including middleware
+var store = require('store');
 
 router.get('/', auth, function(req,res,next) {
     //If the user is authed (to at least inner or higher??), then we pull the info endpoint

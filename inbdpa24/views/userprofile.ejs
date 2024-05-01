@@ -46,10 +46,27 @@
     <% } %> 
 
 </p>
+
+<% if ((role) && role!='guest' && name==username) { %>
+    <form method="post" action="/editprofile/<%= name %>/editskills">
+<% } %>
 <p> Skills: <br> <% for (var result in skills) { %> 
     <%= skills[result] %>
     <br>
+        <% if ((role) && role!='guest' && name==username) { %>
+            <label for='skill[<%=result%>]' Edit </label> 
+            <input type="text" name='skill[<%=result%>]' id='skill[<%=result%>]' value=<%= skills[result] %>>
+        <% } %>
+        <br>
     <% } %> </p>
+    <% if ((role) && role!='guest' && name==username) { %>
+        <label for='skillnew'> Add new skill </label> 
+        <input type="text" name='skillnew' id='skillnew'>
+        <input type="submit" value="Update Skills">
+    </form>
+    <% } %>
+
+
 
 <p> Volunteering: <br>
     <%for (var result in volunteering) {%>

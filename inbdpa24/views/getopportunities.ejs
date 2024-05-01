@@ -39,7 +39,8 @@
 </div>
 <!-- WORKING WAY OF STORING PAGINATION -->
 <% for (var startvalue=0; startvalue<opportunityCount; startvalue+=100 ) { %>
-    <a href="/getopportunities/start=<%= startvalue %>"> <%= startvalue/100+1 %> </a>
+    <a href="/getopportunities/start=<%= startvalue %>"><%= startvalue/100+1 %></a>
+    &nbsp;
 <% } %>
 
 
