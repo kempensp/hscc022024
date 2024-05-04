@@ -34,6 +34,31 @@
         Description: <%= education[result].description %> <br>
     <% } %> 
 </p>
+
+<% if ((role) && role!='guest' && name==username) { %>
+    Add education:
+    <form method="post" action="/editprofile/<%= name %>/editeducation">
+        <label for='newtitle'> Title: </label>
+        <input type="text" id="newtitle" name="newtitle"> <br>
+        <label for='newstart'> Started: </label>
+        <input type="date" id="newstart" name="newstart"> <br>
+        <label for='newend'> Ended: </label>
+        <input type="date" id="newend" name="newend"> <br>
+        <label for='newlocation'> Location: </label>
+        <input type="text" id="newlocation" name="newlocation"> <br>
+        <label for='newdescription'> Description: </label>
+        <input type="text" id="newdescription" name="newdescription"> <br>
+        <input type="submit" value="Update Education">
+
+    </form>
+<% } %>
+
+
+
+
+
+
+
 <p> Experience: <br>
     <%for (var result in experience) {%>
         Title: <%= experience[result].title %> <br> 
@@ -46,6 +71,9 @@
     <% } %> 
 
 </p>
+
+
+
 
 <% if ((role) && role!='guest' && name==username) { %>
     <form method="post" action="/editprofile/<%= name %>/editskills">
